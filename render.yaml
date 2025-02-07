@@ -6,7 +6,7 @@ databases:
 
 services:
   - type: web
-    name: project_management_system_db
+    name: project_management_system
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
