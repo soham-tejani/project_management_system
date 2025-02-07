@@ -1,0 +1,24 @@
+<h1>Welcome to Project Management</h1>
+
+<h1>Projects</h1>
+
+<%= link_to 'New Project', new_project_path, class: 'btn btn-success mb-3' %>
+
+<ul>
+  <% @projects.each do |project| %>
+  <li>
+    <%= link_to project.title, project_path(project), class:
+    'text-decoration-none' %> - <%= link_to 'Edit', edit_project_path(project),
+    class: 'btn btn-sm btn-warning' %> - <%= link_to 'Delete',
+    project_path(project), method: :delete, data: { confirm: 'Are you sure?' },
+    class: 'btn btn-sm btn-danger' %>
+  </li>
+  <% end %>
+</ul>
+
+
+<% if user_signed_in? %>
+  <%= link_to 'Sign out', destroy_user_session_path, class: 'btn btn-sm btn-danger', data: { "turbo-method": :delete } %>
+<% else %>
+  <%= link_to 'Sign in', new_user_session_path %>
+<% end %>

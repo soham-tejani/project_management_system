@@ -1,0 +1,35 @@
+<h1><%= @project.title %></h1>
+<p><%= @project.description %></p>
+
+<hr>
+
+<h2>Comments</h2>
+<ul>
+  <% @project.comments.each do |comment| %>
+  <% if comment.persisted? %>
+    <li>
+      <strong><%= comment.author.name %></strong> commented on 
+      <%= comment.created_at.strftime('%Y-%m-%d %H:%M') %>:<br>
+      <%= comment.content %>
+    </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<hr>
+
+<h2>Status Changes</h2>
+<ul>
+  <% @project.status_changes.each do |status_change| %>
+    <% if status_change.persisted? %>
+      <li>
+      Status changed to <strong><%= status_change.status.humanize %></strong> by 
+      <strong><%= status_change.actor.name %></strong> on 
+      <%= status_change.created_at.strftime('%Y-%m-%d %H:%M') %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+
+<%= link_to 'Back to Projects', projects_path, class: 'btn btn-secondary mt-3' %>
