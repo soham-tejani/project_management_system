@@ -1,0 +1,27 @@
+1. Do we need user authentication, or can any one leave a comment/change the status?
+
+=> no need for complex authentication, maybe simple user model for tracking who commented/changed status.
+
+2. Should comments and status chanes be tied to specific to projects
+
+=> yes, tied to specific projects
+
+3. can multiple users interact with the same project, or is it single-user focused? 
+
+=> Multiple user can interact
+
+4. What status should be available?
+
+=> fixed statuses like Pending, In-progress, Completed
+
+5. can comments be edited or deleted ?
+
+=> No editing/deleting required for now.
+
+6. is there a preferred UI/UX style or should we keep is minimal?
+
+Minimalistic design is acceptable.
+
+7. is there prefered hosting platform?
+
+=> deploy on render for quick hosting 
