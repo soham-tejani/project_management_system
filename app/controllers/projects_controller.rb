@@ -9,6 +9,7 @@ class ProjectsController < ApplicationController
   def show
     @comment = @project.comments.build
     @status_change = @project.status_changes.build
+    @conversation_history = fetch_conversation_history(@project.id)
   end
 
   def new
@@ -40,6 +41,24 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def fetch_conversation_history(project_id)
+  sql = <<-SQL
+    SELECT 'comment' AS type, id, content, user_id, NULL AS status, created_at 
+    FROM comments 
+    WHERE project_id = :project_id
+    UNION ALL
+    SELECT 'status_change' AS type, id, NULL AS content, user_id, status, created_at 
+    FROM status_changes 
+    WHERE project_id = :project_id
+    ORDER BY created_at ASC
+  SQL
+
+  ActiveRecord::Base.connection.execute(
+    ActiveRecord::Base.sanitize_sql([sql, { project_id: project_id }])
+  ).to_a
+end
+
 
   def set_project
     @project = Project.find(params[:id])

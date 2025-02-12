@@ -1,19 +1,24 @@
 <h1>Projects</h1>
-<h4><%= @project.title %></h4>
-<p><%= @project.description %></p>
+<h4>name: <%= @project.title %></h4>
+<p>description: <%= @project.description %></p>
 
 <hr>
 
-<h2>Comments</h2>
-<ul>
-  <% @project.comments.each do |comment| %>
-  <% if comment.persisted? %>
+
+<h2>Conversation History</h2>
+<ul class="timeline">
+  <% @conversation_history.each do |entry| %>
     <li>
-      <strong><%= comment.author.name %></strong> commented on 
-      <%= comment.created_at.strftime('%Y-%m-%d %H:%M') %>:<br>
-      <%= comment.content %>
+      <% user = User.find_by(id: entry['user_id']) %>
+      <strong><%= user&.name || 'Unknown User' %></strong>
+      <% if entry['type'] == 'comment' %>
+        commented: "<%= entry['content'] %>"
+      <% elsif entry['type'] == 'status_change' %>
+        changed the status to "<%= StatusChange::statuses.key(entry['status']
+        ).humanize %>"
+      <% end %>
+      <span class="timestamp">(<%= entry['created_at'] %>)</span>
     </li>
-    <% end %>
   <% end %>
 </ul>
 
@@ -28,22 +33,9 @@
 
 <hr>
 
-<h2>Status Changes</h2>
-<ul>
-  <% @project.status_changes.each do |status_change| %>
-    <% if status_change.persisted? %>
-      <li>
-      Status changed to <strong><%= status_change.status.humanize %></strong> by 
-      <strong><%= status_change.actor.name %></strong> on 
-      <%= status_change.created_at.strftime('%Y-%m-%d %H:%M') %>
-      </li>
-    <% end %>
-  <% end %>
-</ul>
-
 <h3>Change Project Status</h3>
 <%= form_with model: [@project, @status_change], local: true do |form| %>
-  <div class=\"mb-3\">
+  <div class="mb-3">
     <%= form.label :status, 'Select New Status', class: 'form-label' %>
     <%= form.select :status, StatusChange.statuses.keys.map { |k| [k.humanize, k] }, {}, class: 'form-select' %>
   </div>

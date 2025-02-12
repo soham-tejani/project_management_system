@@ -18,6 +18,10 @@
 
 => No editing/deleting required for now.
 
+6. Should the comments and status changes need to be in specific order?
+
+=> Yes, they should be in historical order.
+
 6. is there a preferred UI/UX style or should we keep is minimal?
 
 Minimalistic design is acceptable.
